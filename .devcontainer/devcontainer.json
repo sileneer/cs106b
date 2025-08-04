@@ -1,0 +1,9 @@
+{
+  "name": "C++ Codespace",
+  "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu",
+  "features": {},
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "sudo apt update && sudo apt install -y build-essential"
+}
