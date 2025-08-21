@@ -39,3 +39,22 @@
 
 # debug information files
 *.dwo
+
+# CS106B specific
+build/
+main
+core
+
+# IDE files
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

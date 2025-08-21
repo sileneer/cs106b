@@ -2,7 +2,167 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build C++",
+      "label": "Build Current File",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-g",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "${file}",
+        "-I${workspaceFolder}/include",
+        "-o",
+        "${workspaceFolder}/build/${fileBasenameNoExtension}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build and Run Current File",
+      "type": "shell",
+      "dependsOn": "Build Current File",
+      "command": "${workspaceFolder}/build/${fileBasenameNoExtension}",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "CMake: Configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-B",
+        "${workspaceFolder}/build",
+        "-S",
+        "${workspaceFolder}",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: Build All",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--parallel"
+      ],
+      "group": "build",
+      "dependsOn": "CMake: Configure",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake: Build Assignments",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "assignments"
+      ],
+      "group": "build",
+      "dependsOn": "CMake: Configure",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake: Build Experiments",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "experiments"
+      ],
+      "group": "build",
+      "dependsOn": "CMake: Configure",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake: Clean",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "clean"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Clean Build",
+      "type": "shell",
+      "command": "rm",
+      "args": [
+        "-rf",
+        "${workspaceFolder}/build/*"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Build C++ (Legacy)",
       "type": "shell",
       "command": "g++",
       "args": [
@@ -12,8 +172,7 @@
         "main"
       ],
       "group": {
-        "kind": "build",
-        "isDefault": true
+        "kind": "build"
       },
       "problemMatcher": ["$gcc"]
     }

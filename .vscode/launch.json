@@ -2,7 +2,70 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug main.cpp",
+      "name": "Debug Current File",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build Current File",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "Debug CMake Executable",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/${input:executableName}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "CMake: Build All",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "Debug Assignment (CMake)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/${input:assignmentName}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "CMake: Build Assignments",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "Debug main.cpp (Legacy)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/main",
@@ -19,6 +82,20 @@
           "ignoreFailures": true
         }
       ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "executableName",
+      "description": "Name of the executable to debug",
+      "default": "hello_world",
+      "type": "promptString"
+    },
+    {
+      "id": "assignmentName",
+      "description": "Name of the assignment to debug (e.g., assign1)",
+      "default": "assign1",
+      "type": "promptString"
     }
   ]
 }
