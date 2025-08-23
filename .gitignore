@@ -45,6 +45,12 @@ build/
 main
 core
 
+# Qt build artifacts
+*_autogen/
+qrc_*.cpp
+moc_*.cpp
+ui_*.h
+
 # IDE files
 .vscode/settings.json
 *.swp

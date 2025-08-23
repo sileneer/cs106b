@@ -9,6 +9,20 @@
 #include <string>
 #include <vector>
 
+// Include Stanford CS106B Library headers
+#include "console.h"
+#include "vector.h"
+#include "map.h"
+#include "set.h"
+#include "stack.h"
+#include "queue.h"
+#include "grid.h"
+#include "strlib.h"
+#include "simpio.h"
+#include "random.h"
+#include "filelib.h"
+#include "testing/SimpleTest.h"
+
 namespace cs106b {
     
     // String utilities

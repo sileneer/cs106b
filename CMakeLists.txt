@@ -1,12 +1,20 @@
 # CS106B CMake Configuration
 # Comprehensive build system for Stanford CS106B assignments and exercises
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(cs106b VERSION 1.0.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Find Qt6 package
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Multimedia Network Test OpenGL Sql PrintSupport)
+
+# Set up Qt6
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 # Add compiler flags for debugging and warnings
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
@@ -20,6 +28,42 @@ endif()
 
 # Include directories
 include_directories(include)
+include_directories(lib/stanford_cpp_lib)
+include_directories(lib/stanford_cpp_lib/collections)
+include_directories(lib/stanford_cpp_lib/console)
+include_directories(lib/stanford_cpp_lib/graphics)
+include_directories(lib/stanford_cpp_lib/io)
+include_directories(lib/stanford_cpp_lib/system)
+include_directories(lib/stanford_cpp_lib/util)
+include_directories(lib/stanford_cpp_lib/testing)
+
+# Build Stanford C++ Library as static library
+file(GLOB_RECURSE STANFORD_LIB_SOURCES
+    "lib/stanford_cpp_lib/collections/*.cpp"
+    "lib/stanford_cpp_lib/console/*.cpp"
+    "lib/stanford_cpp_lib/graphics/*.cpp"
+    "lib/stanford_cpp_lib/io/*.cpp"
+    "lib/stanford_cpp_lib/system/*.cpp"
+    "lib/stanford_cpp_lib/util/*.cpp"
+    "lib/stanford_cpp_lib/testing/*.cpp"
+    "lib/stanford_cpp_lib/private/*.cpp"
+)
+
+# Add Qt resources
+qt6_add_resources(STANFORD_LIB_RESOURCES lib/stanford_cpp_lib/images.qrc)
+
+add_library(stanford_cpp_lib STATIC ${STANFORD_LIB_SOURCES} ${STANFORD_LIB_RESOURCES})
+target_link_libraries(stanford_cpp_lib 
+    Qt6::Core 
+    Qt6::Widgets 
+    Qt6::Gui 
+    Qt6::Multimedia 
+    Qt6::Network 
+    Qt6::Test 
+    Qt6::OpenGL 
+    Qt6::Sql 
+    Qt6::PrintSupport
+)
 
 # Set output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -44,6 +88,7 @@ function(add_assignment assignment_name)
         if(ASSIGNMENT_SOURCES)
             add_executable(${assignment_name} ${ASSIGNMENT_SOURCES})
             target_include_directories(${assignment_name} PRIVATE ${assignment_dir})
+            target_link_libraries(${assignment_name} stanford_cpp_lib)
             
             # Add custom properties for IDE integration
             set_target_properties(${assignment_name} PROPERTIES
@@ -62,6 +107,7 @@ function(add_lecture_examples)
     foreach(lecture_file ${LECTURE_SOURCES})
         get_filename_component(lecture_name ${lecture_file} NAME_WE)
         add_executable(lecture_${lecture_name} ${lecture_file})
+        target_link_libraries(lecture_${lecture_name} stanford_cpp_lib)
         
         set_target_properties(lecture_${lecture_name} PROPERTIES
             FOLDER "Lectures"
@@ -79,6 +125,7 @@ function(add_exercises)
     foreach(exercise_file ${EXERCISE_SOURCES})
         get_filename_component(exercise_name ${exercise_file} NAME_WE)
         add_executable(exercise_${exercise_name} ${exercise_file})
+        target_link_libraries(exercise_${exercise_name} stanford_cpp_lib)
         
         set_target_properties(exercise_${exercise_name} PROPERTIES
             FOLDER "Exercises"
@@ -96,6 +143,7 @@ function(add_experiments)
     foreach(experiment_file ${EXPERIMENT_SOURCES})
         get_filename_component(experiment_name ${experiment_file} NAME_WE)
         add_executable(experiment_${experiment_name} ${experiment_file})
+        target_link_libraries(experiment_${experiment_name} stanford_cpp_lib)
         
         set_target_properties(experiment_${experiment_name} PROPERTIES
             FOLDER "Experiments"

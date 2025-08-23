@@ -1,9 +1,13 @@
 {
-  "name": "C++ Codespace",
+  "name": "CS106B C++ Development Environment",
   "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu",
   "features": {},
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
   },
-  "postCreateCommand": "sudo apt update && sudo apt install -y build-essential"
+  "postCreateCommand": "sudo apt update && sudo apt install -y build-essential cmake qt6-base-dev qt6-multimedia-dev qt6-tools-dev qt6-qmake libqt6opengl6-dev libqt6sql6-dev libqt6printsupport6-dev libqt6network6-dev libqt6test6-dev"
 }
